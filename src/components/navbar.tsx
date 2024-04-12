@@ -15,14 +15,9 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import DeleteIcon from "@mui/icons-material/Delete";
-import LayersIcon from "@mui/icons-material/Layers";
-import PersonIcon from "@mui/icons-material/Person";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import PrintIcon from "@mui/icons-material/Print";
-import HistoryIcon from "@mui/icons-material/History";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import DashboardPage from "./dashboard";
+import { dropList } from "./route";
 
 const drawerWidth: number = 230;
 
@@ -82,6 +77,7 @@ export default function NavbarPage() {
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  const location = useLocation();
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -90,7 +86,7 @@ export default function NavbarPage() {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: "24px", // keep right padding when drawer closed
+              pr: "24px",
             }}
           >
             <IconButton
@@ -112,13 +108,8 @@ export default function NavbarPage() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Asset Management
+              ASSET MANAGEMENT
             </Typography>
-            {/* <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton> */}
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -136,48 +127,20 @@ export default function NavbarPage() {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {/* {mainListItems} */}
-            <Link
-              to={"/Dashboard"}
-              style={{ textDecoration: "none", color: "black" }}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="Dashboard" />
-              </ListItemButton>
-            </Link>
-            <ListItemButton>
-              <ListItemIcon>
-                <PersonIcon />
-              </ListItemIcon>
-              <ListItemText primary="Employee" />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemIcon>
-                <PrintIcon />
-              </ListItemIcon>
-              <ListItemText primary="Asset" />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemIcon>
-                <AssignmentIcon />
-              </ListItemIcon>
-              <ListItemText primary="Asset Assign" />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemIcon>
-                <DeleteIcon />
-              </ListItemIcon>
-              <ListItemText primary="Scrap" />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemIcon>
-                <HistoryIcon />
-              </ListItemIcon>
-              <ListItemText primary="Asset History" />
-            </ListItemButton>
+            {dropList.map((item: any, index: any) => {
+              return (
+                <Link
+                  key={index}
+                  to={item?.link}
+                  style={{ textDecoration: "none", color: "black" }}
+                >
+                  <ListItemButton>
+                    <ListItemIcon>{item?.icon}</ListItemIcon>
+                    <ListItemText primary={item?.name} />
+                  </ListItemButton>
+                </Link>
+              );
+            })}
           </List>
         </Drawer>
         <Box
@@ -194,7 +157,7 @@ export default function NavbarPage() {
         >
           <Toolbar />
           <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-            <Outlet />
+            {location.pathname === "/" ? <DashboardPage /> : <Outlet />}
           </Container>
         </Box>
       </Box>
