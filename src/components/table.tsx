@@ -5,7 +5,8 @@ import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied
 import Pagination from "@mui/material/Pagination";
 
 function CustomTable(props: any) {
-  const { data, columnDefs, setPage, count, limit } = props;
+  const { data, columnDefs, setPage, count, limit, page } = props;
+
   return (
     <div>
       {" "}
@@ -26,6 +27,7 @@ function CustomTable(props: any) {
           onChange={(e, page) => {
             setPage(page);
           }}
+          page={page}
           count={Math.ceil(count / limit)}
           color="primary"
         />

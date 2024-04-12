@@ -9,9 +9,16 @@ class EmployeeService {
     return await axios.post<any>(`${API_POINT}/api/add_employee`, payload);
   };
 
-  editEmployeeMaster = async (id: number, payload: any) => {
+  EditEmployeeMaster = async (id: number, payload: any) => {
     return await axios.patch<any>(
       `${API_POINT}/api/edit_employee?id=${id}`,
+      payload
+    );
+  };
+
+  deleteEmployeeMaster = async (id: number, payload: any) => {
+    return await axios.patch<any>(
+      `${API_POINT}/api/delete_employee?id=${id}`,
       payload
     );
   };

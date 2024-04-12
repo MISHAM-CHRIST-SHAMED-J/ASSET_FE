@@ -3,13 +3,13 @@ import { Box, Button, Popover } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EmployeeService from "../../../service/API/employee.service";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import AssetService from "../../../service/API/asset.service";
 
 export default function ButtonIcon(props: any) {
-  const { data, setStatus, setLoading } = props;
+  const { data, setLoading, getAssetMaster } = props;
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -22,15 +22,15 @@ export default function ButtonIcon(props: any) {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  const deleteEmployeeMaster = async () => {
+  const deleteAssetMaster = async () => {
     setLoading(true);
     let payload = {
-      status: !data.status,
+      status: false,
     };
-    await EmployeeService.deleteEmployeeMaster(data?.id, payload)
+    await AssetService.deleteAssetMaster(data?.id, payload)
       .then((res: any) => {
         setLoading(false);
-        setStatus(!data.status);
+        getAssetMaster();
         toast.success(res?.data?.message);
       })
       .catch((error: any) => {
@@ -56,21 +56,21 @@ export default function ButtonIcon(props: any) {
         }}
       >
         <Box>
-          {/* <Box>
+          <Box>
             <Button
               color="inherit"
-               onClick={handleOpenViewModel}
-              startIcon={<VisibilityIcon />}
+              //  onClick={handleOpenViewModel}
+              // startIcon={<VisibilityIcon />}
             >
               View
             </Button>
-          </Box> */}
+          </Box>
 
           <Box>
             {data.status && (
               <Button color="inherit" startIcon={<EditIcon />}>
                 <Link
-                  to="/AddEmployee"
+                  to="/AddAsset"
                   style={{
                     textDecoration: "none",
                     color: "inherit",
@@ -88,11 +88,11 @@ export default function ButtonIcon(props: any) {
               <Button
                 color="inherit"
                 onClick={() => {
-                  deleteEmployeeMaster();
+                  deleteAssetMaster();
                 }}
                 startIcon={<DeleteIcon />}
               >
-                {data.status ? "De-active" : "Active"}
+                Delete
               </Button>
             </Box>
           </Box>

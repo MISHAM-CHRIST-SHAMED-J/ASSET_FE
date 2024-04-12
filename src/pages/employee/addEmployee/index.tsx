@@ -21,6 +21,7 @@ function AddEmployee() {
       .then((res: any) => {
         setLoading(false);
         action.resetForm();
+        navigate("/Employee");
         toast.success(res?.data?.message);
       })
       .catch((error: any) => {
@@ -28,6 +29,23 @@ function AddEmployee() {
         toast.error(error.response.data.message);
       });
   };
+
+  const EditEmployeeMaster = async (payload: any, action: any) => {
+    setLoading(true);
+    await EmployeeService.EditEmployeeMaster(data?.id, payload)
+      .then((res: any) => {
+        setLoading(false);
+        action.resetForm();
+        navigate("/Employee");
+        toast.success(res?.data?.message);
+      })
+      .catch((error: any) => {
+        setLoading(false);
+        toast.error(error.response.data.message);
+      });
+  };
+
+
   const formik: any = useFormik({
     initialValues: {
       emp_id: data ? data?.emp_id : "",
@@ -45,9 +63,7 @@ function AddEmployee() {
     }),
     onSubmit: (values: any, actions: any) => {
       if (data) {
-        console.log("====================================");
-        console.log(values);
-        console.log("====================================");
+        EditEmployeeMaster(values, actions);
       } else {
         addEmployeeMaster(values, actions);
       }

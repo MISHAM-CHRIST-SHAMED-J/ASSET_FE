@@ -8,6 +8,7 @@ import ScrapPage from "./pages/scrap/index.tsx";
 import HistoryPage from "./pages/history/index.tsx";
 import EmployeeDashboard from "./pages/employee";
 import AddEmployee from "./pages/employee/addEmployee/index.tsx";
+import AddAsset from "./pages/asset/addasset/index.tsx";
 function App() {
   return (
     <>
@@ -17,6 +18,7 @@ function App() {
           <Route path="/Employee" element={<EmployeeDashboard />} />
           <Route path="/AddEmployee" element={<AddEmployee />} />
           <Route path="/Asset" element={<AssetPage />} />
+          <Route path="/AddAsset" element={<AddAsset />} />
           <Route path="/AssetAssignment" element={<AssignmentPage />} />
           <Route path="/Scrap" element={<ScrapPage />} />
           <Route path="/AssetHistory" element={<HistoryPage />} />

@@ -15,6 +15,7 @@ function EmployeeDashboard() {
   const [status, setStatus] = useState(true);
   const [data, setData] = useState([]);
   const [count, setcount] = useState(0);
+  const [searchValue, setSearchValue] = useState("");
 
   const getEmployeeMaster = async () => {
     setLoading(true);
@@ -74,7 +75,11 @@ function EmployeeDashboard() {
       cellRenderer: (props: any) => {
         return (
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <ButtonIcon data={props?.data} />
+            <ButtonIcon
+              data={props?.data}
+              setStatus={setStatus}
+              setLoading={setLoading}
+            />
           </div>
         );
       },
@@ -101,6 +106,8 @@ function EmployeeDashboard() {
             disabled={loading}
             onClick={() => {
               setStatus(true);
+              setPage(1);
+              setSearchValue("");
             }}
           >
             Active Employee
@@ -112,6 +119,8 @@ function EmployeeDashboard() {
             style={{ marginLeft: "10px" }}
             onClick={() => {
               setStatus(false);
+              setPage(1);
+              setSearchValue("");
             }}
           >
             Deactive Employee
@@ -121,6 +130,7 @@ function EmployeeDashboard() {
           <TextField
             size="small"
             variant="outlined"
+            value={searchValue}
             placeholder="ID / Name / Phone / Email"
             InputProps={{
               startAdornment: <SearchIcon style={{ marginRight: "10px" }} />,
@@ -129,8 +139,12 @@ function EmployeeDashboard() {
               const { value } = e.target;
               if (!value) {
                 getEmployeeMaster();
+                setPage(1);
+                setSearchValue(value);
               } else {
                 searchEmployeeMaster(value);
+                setStatus(true);
+                setSearchValue(value);
               }
             }}
           />
@@ -152,6 +166,7 @@ function EmployeeDashboard() {
         setPage={setPage}
         count={count}
         limit={limit}
+        page={page}
       />
     </div>
   );
