@@ -59,7 +59,7 @@ function AddEmployee() {
   return (
     <div>
       <Stack spacing={2} direction="row" mb={4} fontSize={25} fontWeight="bold">
-        Employee Master
+        {data ? "Edit " : "Add "} Employee
       </Stack>
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={3}>
@@ -138,7 +138,7 @@ function AddEmployee() {
           <Button
             variant="outlined"
             disabled={loading}
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/Employee")}
           >
             cancel
           </Button>

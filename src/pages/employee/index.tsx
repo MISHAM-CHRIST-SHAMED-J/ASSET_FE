@@ -127,7 +127,11 @@ function EmployeeDashboard() {
             }}
             onChange={(e) => {
               const { value } = e.target;
-              searchEmployeeMaster(value);
+              if (!value) {
+                getEmployeeMaster();
+              } else {
+                searchEmployeeMaster(value);
+              }
             }}
           />
           <Button
