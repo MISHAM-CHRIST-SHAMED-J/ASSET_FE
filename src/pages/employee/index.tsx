@@ -1,134 +1,156 @@
-import React from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { Grid, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import EmployeeService from "../../service/API/employee.service";
+import { toast } from "sonner";
+import CustomTable from "../../components/table";
+import ButtonIcon from "./buttonIcon";
+import { Box, Button, Stack, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
 
-function EmployeePage() {
-  const formik = useFormik({
-    initialValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
+function EmployeeDashboard() {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [status, setStatus] = useState(true);
+  const [data, setData] = useState([]);
+  const [count, setcount] = useState(0);
+
+  const getEmployeeMaster = async () => {
+    setLoading(true);
+    await EmployeeService.getEmployeeMaster(page, limit, status)
+      .then((res: any) => {
+        setLoading(false);
+        setData(res?.data?.data);
+        setcount(res?.data?.count);
+      })
+      .catch((error: any) => {
+        setLoading(false);
+        toast.error(error.response.data.message);
+      });
+  };
+  const searchEmployeeMaster = async (val: any) => {
+    setLoading(true);
+    await EmployeeService.searchEmployeeMaster(val)
+      .then((res: any) => {
+        setLoading(false);
+        setData(res?.data?.data);
+        setcount(res?.data?.count);
+      })
+      .catch((error: any) => {
+        setLoading(false);
+        toast.error(error.response.data.message);
+      });
+  };
+
+  const [columnDefs] = useState<any>([
+    {
+      headerName: "Employee ID",
+      field: "emp_id",
+      filter: true,
+      flex: 1,
     },
-    validationSchema: Yup.object({
-      firstName: Yup.string()
-        .max(15, "Must be 15 characters or less")
-        .required("Required"),
-      lastName: Yup.string()
-        .max(20, "Must be 20 characters or less")
-        .required("Required"),
-      email: Yup.string().email("Invalid email address").required("Required"),
-    }),
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    {
+      headerName: "Employee Name",
+      field: "name",
+      filter: true,
+      flex: 1,
     },
-  });
+    {
+      headerName: "Phone",
+      field: "phone",
+      filter: true,
+      flex: 1,
+    },
+    {
+      headerName: "Email",
+      field: "email_id",
+      filter: true,
+      flex: 1,
+    },
+    {
+      headerName: "Action",
+      flex: 1,
+      cellRenderer: (props: any) => {
+        return (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <ButtonIcon data={props?.data} />
+          </div>
+        );
+      },
+    },
+  ]);
+
+  useEffect(() => {
+    getEmployeeMaster();
+  }, [page, limit, status]);
   return (
     <div>
-      <form onSubmit={formik.handleSubmit}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={4} lg={4}>
-            <TextField
-              id="outlined-basic"
-              label="Outlined"
-              variant="outlined"
-              name="firstName"
-              type="text"
-              sx={{ width: "100%" }}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.firstName}
-            />
-            {formik.touched.firstName && formik.errors.firstName ? (
-              <div>{formik.errors.firstName}</div>
-            ) : null}
-          </Grid>
-
-          <Grid item xs={12} md={4} lg={4}>
-            <TextField
-              id="outlined-basic"
-              label="Outlined"
-              variant="outlined"
-              name="firstName"
-              type="text"
-              sx={{ width: "100%" }}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.firstName}
-            />
-            {formik.touched.firstName && formik.errors.firstName ? (
-              <div>{formik.errors.firstName}</div>
-            ) : null}
-          </Grid>
-
-          <Grid item xs={12} md={4} lg={4}>
-            <TextField
-              id="outlined-basic"
-              label="Outlined"
-              variant="outlined"
-              name="firstName"
-              type="text"
-              sx={{ width: "100%" }}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.firstName}
-            />
-            {formik.touched.firstName && formik.errors.firstName ? (
-              <div>{formik.errors.firstName}</div>
-            ) : null}
-          </Grid>
-          <Grid item xs={12} md={4} lg={4}>
-            <TextField
-              id="outlined-basic"
-              label="Outlined"
-              variant="outlined"
-              name="firstName"
-              type="text"
-              sx={{ width: "100%" }}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.firstName}
-            />
-            {formik.touched.firstName && formik.errors.firstName ? (
-              <div>{formik.errors.firstName}</div>
-            ) : null}
-          </Grid>
-          <Grid item xs={12} md={4} lg={4}>
-            <TextField
-              id="outlined-basic"
-              label="Outlined"
-              variant="outlined"
-              name="firstName"
-              type="text"
-              sx={{ width: "100%" }}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.firstName}
-            />
-            {formik.touched.firstName && formik.errors.firstName ? (
-              <div>{formik.errors.firstName}</div>
-            ) : null}
-          </Grid>
-          <Grid item xs={12} md={4} lg={4}>
-            <TextField
-              id="outlined-basic"
-              label="Outlined"
-              variant="outlined"
-              name="firstName"
-              type="text"
-              sx={{ width: "100%" }}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.firstName}
-            />
-            {formik.touched.firstName && formik.errors.firstName ? (
-              <div>{formik.errors.firstName}</div>
-            ) : null}
-          </Grid>
-        </Grid>
-      </form>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "15px",
+        }}
+      >
+        <div>
+          <Button
+            variant="contained"
+            color={!status ? "inherit" : "primary"}
+            disabled={loading}
+            onClick={() => {
+              setStatus(true);
+            }}
+          >
+            Active Employee
+          </Button>
+          <Button
+            variant="contained"
+            color={status ? "inherit" : "primary"}
+            disabled={loading}
+            style={{ marginLeft: "10px" }}
+            onClick={() => {
+              setStatus(false);
+            }}
+          >
+            Deactive Employee
+          </Button>
+        </div>
+        <div>
+          <TextField
+            size="small"
+            variant="outlined"
+            placeholder="ID / Name / Phone / Email"
+            InputProps={{
+              startAdornment: <SearchIcon style={{ marginRight: "10px" }} />,
+            }}
+            onChange={(e) => {
+              const { value } = e.target;
+              searchEmployeeMaster(value);
+            }}
+          />
+          <Button
+            variant="contained"
+            disabled={loading}
+            style={{ marginLeft: "10px" }}
+            onClick={() => {
+              navigate("/AddEmployee");
+            }}
+          >
+            Add Employee
+          </Button>
+        </div>
+      </div>
+      <CustomTable
+        data={data}
+        columnDefs={columnDefs}
+        setPage={setPage}
+        count={count}
+        limit={limit}
+      />
     </div>
   );
 }
 
-export default EmployeePage;
+export default EmployeeDashboard;
