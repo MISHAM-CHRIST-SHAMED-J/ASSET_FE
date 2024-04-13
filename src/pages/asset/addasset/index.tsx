@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import { Autocomplete, Grid, TextField } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { LoadingButton } from "@mui/lab";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -15,6 +15,8 @@ function AddAsset() {
   const data = location.state;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [dropDown, setDropDown] = useState([]);
+  const today = new Date().toISOString().split("T")[0];
 
   const addAssetMaster = async (payload: any, action: any) => {
     setLoading(true);
@@ -33,7 +35,7 @@ function AddAsset() {
 
   const editAssetMaster = async (payload: any, action: any) => {
     setLoading(true);
-    await AssetService.editAssetMaster(data?.id , payload)
+    await AssetService.editAssetMaster(data?.id, payload)
       .then((res: any) => {
         setLoading(false);
         action.resetForm();
@@ -42,6 +44,19 @@ function AddAsset() {
       })
       .catch((error: any) => {
         setLoading(false);
+        toast.error(error.response.data.message);
+      });
+  };
+
+  const getAssetCategoryDrop = async () => {
+    await AssetService.getAssetCategoryDrop()
+      .then((res: any) => {
+        let result = res.data.data.map((item: any) => {
+          return { ...item, label: item?.category };
+        });
+       setDropDown(result)
+      })
+      .catch((error: any) => {
         toast.error(error.response.data.message);
       });
   };
@@ -59,7 +74,6 @@ function AddAsset() {
         ? moment(data?.purchase_date).format("YYYY-MM-DD")
         : "",
       asset_location: data ? data?.asset_location : "",
-      scrap_date: data ? moment(data?.scrap_date).format("YYYY-MM-DD") : null,
     },
     validationSchema: Yup.object({
       serial_no: Yup.string().required("Required"),
@@ -79,10 +93,29 @@ function AddAsset() {
     },
   });
 
+  useEffect(() => {
+    getAssetCategoryDrop();
+  }, []);
+
   return (
     <div>
-      <Stack spacing={2} direction="row" mb={4} fontSize={25} fontWeight="bold">
-        {data ? "Edit " : "Add "} Asset
+      <Stack
+        spacing={2}
+        direction="row"
+        mb={4}
+        fontSize={25}
+        justifyContent="space-between"
+        fontWeight="bold"
+      >
+        {data ? "Edit " : "Add "} Asset{" "}
+        <Button
+          onClick={() => {
+            navigate("/AssetCategory");
+          }}
+          variant="contained"
+        >
+          Asset Category
+        </Button>
       </Stack>
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={3}>
@@ -141,10 +174,7 @@ function AddAsset() {
             <Autocomplete
               disablePortal
               id="combo-box-demo"
-              options={[
-                { label: "The Shawshank Redemption", year: 1994 },
-                { label: "The Godfather", year: 1972 },
-              ]}
+              options={dropDown}
               sx={{ width: "100%" }}
               onChange={(event, newValue) => {
                 formik.setFieldValue("asset_category", newValue?.label);
@@ -244,6 +274,9 @@ function AddAsset() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.purchase_date}
+              inputProps={{
+                max: today, // Set max attribute to today's date
+              }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -252,7 +285,7 @@ function AddAsset() {
               <div style={{ color: "red" }}>*{formik.errors.purchase_date}</div>
             ) : null}
           </Grid>
-          <Grid item xs={12} md={4} lg={4}>
+          {/* <Grid item xs={12} md={4} lg={4}>
             <TextField
               id="outlined-basic"
               label="Scrap Date"
@@ -270,7 +303,7 @@ function AddAsset() {
             {formik.touched.scrap_date && formik.errors.scrap_date ? (
               <div style={{ color: "red" }}>*{formik.errors.scrap_date}</div>
             ) : null}
-          </Grid>
+          </Grid> */}
         </Grid>
         <Stack spacing={2} direction="row" justifyContent="flex-end" mt={5}>
           <Button

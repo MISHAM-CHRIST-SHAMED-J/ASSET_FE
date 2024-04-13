@@ -117,9 +117,7 @@ function AssetPage() {
           marginBottom: "15px",
         }}
       >
-        <div>
-    
-        </div>
+      <div></div>
         <div>
           <TextField
             size="small"

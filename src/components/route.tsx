@@ -22,8 +22,13 @@ export const dropList = [
     icon: <PrintIcon />,
   },
   {
-    link: "/AssetAssignment",
-    name: "AssetAssignment",
+    link: "/IssueAsset",
+    name: "Issue Asset",
+    icon: <AssignmentIcon />,
+  },
+  {
+    link: "/ReturnAsset",
+    name: "Return Asset",
     icon: <AssignmentIcon />,
   },
   {
