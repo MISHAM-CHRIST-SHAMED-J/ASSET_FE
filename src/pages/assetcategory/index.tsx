@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Modal from "@mui/material/Modal";
 import CustomTable from "../../components/table";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import AddCategory from "./addcategory";
@@ -9,19 +7,6 @@ import { useNavigate } from "react-router-dom";
 import AssetService from "../../service/API/asset.service";
 import { toast } from "sonner";
 import ButtonIcon from "./buttonIcon";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "55%",
-  bgcolor: "background.paper",
-  border: "none",
-  borderRadius: "10px",
-  boxShadow: 24,
-  p: 4,
-};
 
 function AssetCategory() {
   const [open, setOpen] = React.useState(false);
@@ -120,22 +105,15 @@ function AssetCategory() {
         page={page}
       />
 
-      <Modal
-        keepMounted
-        open={open}
-        onClose={() => {}}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style} id="hide_scroll">
-          <AddCategory
-            handleClose={handleClose}
-            getAssetCategory={getAssetCategory}
-            editData={editData}
-            setEditData={setEditData}
-          />
-        </Box>
-      </Modal>
+      <>
+        <AddCategory
+          handleClose={handleClose}
+          getAssetCategory={getAssetCategory}
+          editData={editData}
+          setEditData={setEditData}
+          open={open}
+        />
+      </>
     </div>
   );
 }

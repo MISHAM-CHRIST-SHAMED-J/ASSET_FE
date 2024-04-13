@@ -7,6 +7,8 @@ import EmployeeService from "../../../service/API/employee.service";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import ReplayIcon from "@mui/icons-material/Replay";
 
 export default function ButtonIcon(props: any) {
   const { data, setStatus, setLoading } = props;
@@ -56,15 +58,15 @@ export default function ButtonIcon(props: any) {
         }}
       >
         <Box>
-          {/* <Box>
+          <Box>
             <Button
               color="inherit"
-               onClick={handleOpenViewModel}
+              onClick={() => {}}
               startIcon={<VisibilityIcon />}
             >
               View
             </Button>
-          </Box> */}
+          </Box>
 
           <Box>
             {data.status && (
@@ -82,19 +84,14 @@ export default function ButtonIcon(props: any) {
               </Button>
             )}
           </Box>
-
           <Box>
-            <Box>
-              <Button
-                color="inherit"
-                onClick={() => {
-                  deleteEmployeeMaster();
-                }}
-                startIcon={<DeleteIcon />}
-              >
-                {data.status ? "De-active" : "Active"}
-              </Button>
-            </Box>
+            <Button
+              color="inherit"
+              onClick={() => {}}
+              startIcon={<ReplayIcon />}
+            >
+              Return
+            </Button>
           </Box>
         </Box>
       </Popover>

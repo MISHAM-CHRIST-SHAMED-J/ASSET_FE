@@ -3,9 +3,10 @@ import AssetIssueService from "../../service/API/assign.service";
 import { toast } from "sonner";
 import CustomTable from "../../components/table";
 import ButtonIcon from "./buttonIcon";
-import { Box, Button, Stack, TextField } from "@mui/material";
+import { Badge, Box, Button, Stack, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
+import moment from "moment";
 
 function IssuedDashboard() {
   const navigate = useNavigate();
@@ -59,15 +60,34 @@ function IssuedDashboard() {
       flex: 1,
     },
     {
-      headerName: "Phone",
-      field: "phone",
-      filter: true,
+      headerName: "Issue Date",
+      cellRenderer: (props: any) => {
+        return moment(props?.data?.asset_issue_date).format("DD-MM-YYYY");
+      },
       flex: 1,
     },
     {
-      headerName: "Email",
-      field: "email_id",
-      filter: true,
+      headerName: "Return Date",
+      cellRenderer: (props: any) => {
+        return (
+          <div>
+            {props?.data?.asset_return_date ? (
+              moment(props?.data?.asset_return_date).format("DD-MM-YYYY")
+            ) : (
+              <span
+                style={{
+                  padding: " 5px 10px",
+                  backgroundColor: "#f5c7c4",
+                  color: "#bf1004",
+                  borderRadius: "15px",
+                  fontWeight:"bold"
+
+                }}
+              >Asset Not Reclaimed</span>
+            )}
+          </div>
+        );
+      },
       flex: 1,
     },
     {
@@ -108,7 +128,7 @@ function IssuedDashboard() {
             size="small"
             variant="outlined"
             value={searchValue}
-            placeholder="ID / Name / Phone / Email"
+            placeholder="Employee Name"
             InputProps={{
               startAdornment: <SearchIcon style={{ marginRight: "10px" }} />,
             }}
