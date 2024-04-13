@@ -6,13 +6,10 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 import { toast } from "sonner";
 import { LoadingButton } from "@mui/lab";
-import { useLocation, useNavigate } from "react-router-dom";
 import AssetService from "../../../service/API/asset.service";
 
 function AddCategory(props: any) {
-  const { handleClose, getAssetCategory } = props;
-  const location = useLocation();
-  const data = location.state;
+  const { handleClose, getAssetCategory, editData, setEditData } = props;
   const [loading, setLoading] = useState(false);
 
   const addAssetCategory = async (payload: any, action: any) => {
@@ -33,10 +30,11 @@ function AddCategory(props: any) {
 
   const editAssetCategory = async (payload: any, action: any) => {
     setLoading(true);
-    await AssetService.editAssetCategory(data?.id, payload)
+    await AssetService.editAssetCategory(editData?.id, payload)
       .then((res: any) => {
         setLoading(false);
         action.resetForm();
+        setEditData();
         getAssetCategory();
         handleClose();
         toast.success(res?.data?.message);
@@ -49,13 +47,13 @@ function AddCategory(props: any) {
 
   const formik: any = useFormik({
     initialValues: {
-      category: data ? data?.serial_no : "",
+      category: editData ? editData?.category : "",
     },
     validationSchema: Yup.object({
       category: Yup.string().required("Required"),
     }),
     onSubmit: (values: any, actions: any) => {
-      if (data) {
+      if (editData) {
         editAssetCategory(values, actions);
       } else {
         addAssetCategory(values, actions);
@@ -73,7 +71,7 @@ function AddCategory(props: any) {
         justifyContent="space-between"
         fontWeight="bold"
       >
-        {data ? "Edit " : "Add "} Category{" "}
+        {editData ? "Edit " : "Add "} Category{" "}
       </Stack>
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={3}>
@@ -100,6 +98,7 @@ function AddCategory(props: any) {
             disabled={loading}
             onClick={() => {
               formik.resetForm();
+              setEditData();
               handleClose();
             }}
           >

@@ -3,13 +3,13 @@ import { Box, Button, Popover } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EmployeeService from "../../../service/API/employee.service";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import AssetService from "../../../service/API/asset.service";
 
 export default function ButtonIcon(props: any) {
-  const { data, setLoading, getAssetCategory, setOpen, setEditData } = props;
+  const { data, setStatus, setLoading } = props;
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -22,15 +22,15 @@ export default function ButtonIcon(props: any) {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  const deleteAssetCategory = async () => {
+  const deleteEmployeeMaster = async () => {
     setLoading(true);
     let payload = {
-      status: false,
+      status: !data.status,
     };
-    await AssetService.deleteAssetCategory(data?.id, payload)
+    await EmployeeService.deleteEmployeeMaster(data?.id, payload)
       .then((res: any) => {
         setLoading(false);
-        getAssetCategory();
+        setStatus(!data.status);
         toast.success(res?.data?.message);
       })
       .catch((error: any) => {
@@ -56,17 +56,31 @@ export default function ButtonIcon(props: any) {
         }}
       >
         <Box>
-          <Box>
+          {/* <Box>
             <Button
               color="inherit"
-              onClick={() => {
-                setEditData(data);
-                setOpen(true);
-              }}
-              startIcon={<EditIcon />}
+               onClick={handleOpenViewModel}
+              startIcon={<VisibilityIcon />}
             >
-              Edit
+              View
             </Button>
+          </Box> */}
+
+          <Box>
+            {data.status && (
+              <Button color="inherit" startIcon={<EditIcon />}>
+                <Link
+                  to="/AddEmployee"
+                  style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                  }}
+                  state={data}
+                >
+                  Edit
+                </Link>
+              </Button>
+            )}
           </Box>
 
           <Box>
@@ -74,11 +88,11 @@ export default function ButtonIcon(props: any) {
               <Button
                 color="inherit"
                 onClick={() => {
-                  deleteAssetCategory();
+                  deleteEmployeeMaster();
                 }}
                 startIcon={<DeleteIcon />}
               >
-                Delete
+                {data.status ? "De-active" : "Active"}
               </Button>
             </Box>
           </Box>

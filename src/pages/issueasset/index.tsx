@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import AssetService from "../../service/API/asset.service";
+import AssetIssueService from "../../service/API/assign.service";
 import { toast } from "sonner";
 import CustomTable from "../../components/table";
 import ButtonIcon from "./buttonIcon";
 import { Box, Button, Stack, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import moment from "moment";
 
-function AssetPage() {
+function IssuedDashboard() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -18,22 +17,9 @@ function AssetPage() {
   const [count, setcount] = useState(0);
   const [searchValue, setSearchValue] = useState("");
 
-  const getAssetMaster = async () => {
+  const getAssetIssue = async () => {
     setLoading(true);
-    await AssetService.getAssetMaster(page, limit, status)
-      .then((res: any) => {
-        setLoading(false);
-        setData(res?.data?.data);
-        setcount(res?.data?.count);
-      })
-      .catch((error: any) => {
-        setLoading(false);
-        toast.error(error.response.data.message);
-      });
-  };
-  const searchAssetMaster = async (val: any) => {
-    setLoading(true);
-    await AssetService.searchAssetMaster(val)
+    await AssetIssueService.getAssetIssue(page, limit)
       .then((res: any) => {
         setLoading(false);
         setData(res?.data?.data);
@@ -45,45 +31,42 @@ function AssetPage() {
       });
   };
 
+  // const searchAssetIssue = async (val: any) => {
+  //   setLoading(true);
+  //   await AssetIssueService.searchAssetIssue(val)
+  //     .then((res: any) => {
+  //       setLoading(false);
+  //       setData(res?.data?.data);
+  //       setcount(res?.data?.count);
+  //     })
+  //     .catch((error: any) => {
+  //       setLoading(false);
+  //       toast.error(error.response.data.message);
+  //     });
+  // };
+
   const [columnDefs] = useState<any>([
     {
-      headerName: "Serial No",
-      field: "serial_no",
+      headerName: "Employee",
+      field: "empRef_name",
       filter: true,
       flex: 1,
     },
     {
-      headerName: "ID",
-      field: "unique_id",
+      headerName: "Asset",
+      field: "assetRef_name",
       filter: true,
       flex: 1,
     },
     {
-      headerName: "Name",
-      field: "asset_name",
+      headerName: "Phone",
+      field: "phone",
       filter: true,
       flex: 1,
     },
     {
-      headerName: "Make",
-      field: "make",
-      filter: true,
-      flex: 1,
-    },
-    {
-      headerName: "Location",
-      field: "asset_location",
-      filter: true,
-      flex: 1,
-    },
-    {
-      headerName: "Purchased",
-      field: "purchase_date",
-      cellRenderer: (props: any) => {
-        return (
-          moment(props?.purchase_date).format("DD-MM-YYYY")
-        );
-      },
+      headerName: "Email",
+      field: "email_id",
       filter: true,
       flex: 1,
     },
@@ -95,7 +78,7 @@ function AssetPage() {
           <div style={{ display: "flex", justifyContent: "center" }}>
             <ButtonIcon
               data={props?.data}
-              getAssetMaster={getAssetMaster}
+              setStatus={setStatus}
               setLoading={setLoading}
             />
           </div>
@@ -105,7 +88,7 @@ function AssetPage() {
   ]);
 
   useEffect(() => {
-    getAssetMaster();
+    getAssetIssue();
   }, [page, limit, status]);
   return (
     <div>
@@ -114,29 +97,29 @@ function AssetPage() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          fontSize: "20px",
+          fontWeight: "bold",
           marginBottom: "15px",
-          fontSize:"20px",
-          fontWeight:"bold",
         }}
       >
-      <div>Asset</div>
+        <div>Issue Asset</div>
         <div>
           <TextField
             size="small"
             variant="outlined"
             value={searchValue}
-            placeholder="ID / Serial / Model / Make"
+            placeholder="ID / Name / Phone / Email"
             InputProps={{
               startAdornment: <SearchIcon style={{ marginRight: "10px" }} />,
             }}
             onChange={(e) => {
               const { value } = e.target;
               if (!value) {
-                getAssetMaster();
+                getAssetIssue();
                 setPage(1);
                 setSearchValue(value);
               } else {
-                searchAssetMaster(value);
+                // searchEmployeeMaster(value);
                 setStatus(true);
                 setSearchValue(value);
               }
@@ -147,10 +130,10 @@ function AssetPage() {
             disabled={loading}
             style={{ marginLeft: "10px" }}
             onClick={() => {
-              navigate("/AddAsset");
+              navigate("/AddIssueAsset");
             }}
           >
-            Add Asset
+            Issue Asset
           </Button>
         </div>
       </div>
@@ -166,4 +149,4 @@ function AssetPage() {
   );
 }
 
-export default AssetPage;
+export default IssuedDashboard;

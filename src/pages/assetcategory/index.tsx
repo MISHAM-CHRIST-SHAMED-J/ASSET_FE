@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import CustomTable from "../../components/table";
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import AddCategory from "./addcategory";
 import { useNavigate } from "react-router-dom";
 import AssetService from "../../service/API/asset.service";
@@ -33,6 +33,7 @@ function AssetCategory() {
   const [limit, setLimit] = useState(10);
   const [status, setStatus] = useState(true);
   const [data, setData] = useState([]);
+  const [editData, setEditData] = useState();
   const [count, setcount] = useState(0);
 
   const getAssetCategory = async () => {
@@ -65,6 +66,7 @@ function AssetCategory() {
             <ButtonIcon
               data={props?.data}
               setOpen={setOpen}
+              setEditData={setEditData}
               getAssetCategory={getAssetCategory}
               setLoading={setLoading}
             />
@@ -80,16 +82,23 @@ function AssetCategory() {
 
   return (
     <div>
-      <div style={{justifyContent:"space-between", display:"flex", alignItems:"center", marginBottom:"10px"}}>
+      <div
+        style={{
+          justifyContent: "space-between",
+          display: "flex",
+          alignItems: "center",
+          marginBottom: "10px",
+        }}
+      >
         <Button
-        startIcon={<ArrowBackIosIcon />}
+          startIcon={<ArrowBackIosIcon />}
           variant="outlined"
           disabled={loading}
           onClick={() => {
-           navigate("/AddAsset")
+            navigate("/AddAsset");
           }}
         >
-        Back
+          Back
         </Button>
 
         <Button
@@ -122,6 +131,8 @@ function AssetCategory() {
           <AddCategory
             handleClose={handleClose}
             getAssetCategory={getAssetCategory}
+            editData={editData}
+            setEditData={setEditData}
           />
         </Box>
       </Modal>

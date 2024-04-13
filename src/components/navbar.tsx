@@ -134,7 +134,12 @@ export default function NavbarPage() {
                   to={item?.link}
                   style={{ textDecoration: "none", color: "black" }}
                 >
-                  <ListItemButton>
+                  <ListItemButton
+                    sx={{
+                      background:
+                        location.pathname === item?.link ? "lightblue" : "inherit",
+                    }}
+                  >
                     <ListItemIcon>{item?.icon}</ListItemIcon>
                     <ListItemText primary={item?.name} />
                   </ListItemButton>
