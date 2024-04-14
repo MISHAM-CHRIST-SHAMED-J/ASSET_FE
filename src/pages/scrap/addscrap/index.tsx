@@ -66,14 +66,14 @@ function AddAssetScrap() {
       approved_by: data ? data?.approved_by : "",
       isScrap: data ? data?.isScrap : null,
     },
-    // validationSchema: Yup.object({
-    //   reason_for_scrap: Yup.string().required("Required"),
-    //   scrap_date: Yup.string().required("Required"),
-    //   scrap_condition: Yup.string().required("Required"),
-    //   scrapped_by: Yup.string().required("Required"),
-    //   approved_by: Yup.string().required("Required"),
-    //   isScrap: Yup.string().required("Required"),
-    // }),
+    validationSchema: Yup.object({
+      reason_for_scrap: Yup.string().required("Required"),
+      scrap_date: Yup.string().required("Required"),
+      scrap_condition: Yup.string().required("Required"),
+      scrapped_by: Yup.string().required("Required"),
+      approved_by: Yup.string().required("Required"),
+      isScrap: Yup.string().required("Required"),
+    }),
     onSubmit: (values: any, actions: any) => {
       editAssetScrap(values, actions);
     },
@@ -234,7 +234,7 @@ function AddAssetScrap() {
           <Button
             variant="outlined"
             disabled={loading}
-            onClick={() => navigate("/Asset")}
+            onClick={() => navigate("/Scrap")}
           >
             cancel
           </Button>
