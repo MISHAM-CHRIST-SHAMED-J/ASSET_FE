@@ -17,37 +17,31 @@ class AssetIssueService {
     return await axios.post<any>(`${API_POINT}/api/add_assetIssue`, payload);
   };
 
+  editAssetIssue = async (id: number, payload: any) => {
+    return await axios.patch<any>(
+      `${API_POINT}/api/edit_assetIssue?id=${id}`,
+      payload
+    );
+  };
+
+  returnAssetIssue = async (id: number, payload: any, assetRef_id: number) => {
+    return await axios.patch<any>(
+      `${API_POINT}/api/return_assetIssue?id=${id}&assetRef_id=${assetRef_id}`,
+      payload
+    );
+  };
+
   getAssetIssue = async (page: number, limit: number) => {
     return await axios.get<any>(
       `${API_POINT}/api/get_assetIssue?page=${page}&limit=${limit}`
     );
   };
 
-  //   EditEmployeeMaster = async (id: number, payload: any) => {
-  //     return await axios.patch<any>(
-  //       `${API_POINT}/api/edit_employee?id=${id}`,
-  //       payload
-  //     );
-  //   };
-
-  //   deleteEmployeeMaster = async (id: number, payload: any) => {
-  //     return await axios.patch<any>(
-  //       `${API_POINT}/api/delete_employee?id=${id}`,
-  //       payload
-  //     );
-  //   };
-
-  //   searchEmployeeMaster = async (val: any) => {
-  //     return await axios.get<any>(
-  //       `${API_POINT}/api/search_employee?search=${val}`
-  //     );
-  //   };
-
-  //   getEmployeeMaster = async (page: number, limit: number, status: boolean) => {
-  //     return await axios.get<any>(
-  //       `${API_POINT}/api/get_employee?page=${page}&limit=${limit}&status=${status}`
-  //     );
-  //   };
+  searchAssetIssue = async (val:any) => {
+    return await axios.get<any>(
+      `${API_POINT}/api/search_assetIssue?search=${val}`
+    );
+  };
 }
 
 export default new AssetIssueService();

@@ -32,19 +32,19 @@ function IssuedDashboard() {
       });
   };
 
-  // const searchAssetIssue = async (val: any) => {
-  //   setLoading(true);
-  //   await AssetIssueService.searchAssetIssue(val)
-  //     .then((res: any) => {
-  //       setLoading(false);
-  //       setData(res?.data?.data);
-  //       setcount(res?.data?.count);
-  //     })
-  //     .catch((error: any) => {
-  //       setLoading(false);
-  //       toast.error(error.response.data.message);
-  //     });
-  // };
+  const searchAssetIssue = async (val: any) => {
+    setLoading(true);
+    await AssetIssueService.searchAssetIssue(val)
+      .then((res: any) => {
+        setLoading(false);
+        setData(res?.data?.data);
+        setcount(res?.data?.count);
+      })
+      .catch((error: any) => {
+        setLoading(false);
+        toast.error(error.response.data.message);
+      });
+  };
 
   const [columnDefs] = useState<any>([
     {
@@ -71,7 +71,7 @@ function IssuedDashboard() {
       cellRenderer: (props: any) => {
         return (
           <div>
-            {props?.data?.asset_return_date ? (
+            {props?.data?.isReturned ? (
               moment(props?.data?.asset_return_date).format("DD-MM-YYYY")
             ) : (
               <span
@@ -139,7 +139,7 @@ function IssuedDashboard() {
                 setPage(1);
                 setSearchValue(value);
               } else {
-                // searchEmployeeMaster(value);
+                searchAssetIssue(value);
                 setStatus(true);
                 setSearchValue(value);
               }

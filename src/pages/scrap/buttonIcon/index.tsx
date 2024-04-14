@@ -3,15 +3,13 @@ import { Box, Button, Popover } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EmployeeService from "../../../service/API/employee.service";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import ReplayIcon from "@mui/icons-material/Replay";
+import AssetService from "../../../service/API/asset.service";
 
 export default function ButtonIcon(props: any) {
-  const { data, setStatus, setLoading } = props;
+  const { data, setLoading, getAssetMaster } = props;
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -24,15 +22,15 @@ export default function ButtonIcon(props: any) {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  const deleteEmployeeMaster = async () => {
+  const deleteAssetMaster = async () => {
     setLoading(true);
     let payload = {
-      status: !data.status,
+      status: false,
     };
-    await EmployeeService.deleteEmployeeMaster(data?.id, payload)
+    await AssetService.deleteAssetMaster(data?.id, payload)
       .then((res: any) => {
         setLoading(false);
-        setStatus(!data.status);
+        getAssetMaster();
         toast.success(res?.data?.message);
       })
       .catch((error: any) => {
@@ -40,7 +38,6 @@ export default function ButtonIcon(props: any) {
         toast.error(error.response.data.message);
       });
   };
-  console.log(data);
 
   return (
     <>
@@ -62,45 +59,43 @@ export default function ButtonIcon(props: any) {
           <Box>
             <Button
               color="inherit"
-              onClick={() => {}}
-              startIcon={<VisibilityIcon />}
+              //  onClick={handleOpenViewModel}
+              // startIcon={<VisibilityIcon />}
             >
               View
             </Button>
           </Box>
-          {!data?.isReturned && (
-            <Box>
-              <Link
-                to="/AddIssueAsset"
-                style={{
-                  textDecoration: "none",
-                  color: "inherit",
-                }}
-                state={data}
-              >
-                <Button color="inherit" startIcon={<EditIcon />}>
-                  Edit
-                </Button>
-              </Link>
-            </Box>
-          )}
 
-          {!data?.isReturned && (
+          <Box>
+            {data.status && (
+              <Button color="inherit" startIcon={<EditIcon />}>
+                <Link
+                  to="/AddAsset"
+                  style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                  }}
+                  state={data}
+                >
+                  Edit
+                </Link>
+              </Button>
+            )}
+          </Box>
+
+          <Box>
             <Box>
-              <Link
-                to="/ReturnAsset"
-                style={{
-                  textDecoration: "none",
-                  color: "inherit",
+              <Button
+                color="inherit"
+                onClick={() => {
+                  deleteAssetMaster();
                 }}
-                state={data}
+                startIcon={<DeleteIcon />}
               >
-                <Button color="inherit" startIcon={<ReplayIcon />}>
-                  Return
-                </Button>
-              </Link>
+                Delete
+              </Button>
             </Box>
-          )}
+          </Box>
         </Box>
       </Popover>
     </>

@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { LoadingButton } from "@mui/lab";
 import { useLocation, useNavigate } from "react-router-dom";
+import moment from "moment";
 
 function AddIssueAsset() {
   const location = useLocation();
@@ -16,7 +17,6 @@ function AddIssueAsset() {
   const [loading, setLoading] = useState(false);
   const [empDrop, setEmpDrop] = useState<any>([]);
   const [assetDrop, setAssetDrop] = useState<any>([]);
-
   const today = new Date().toISOString().split("T")[0];
 
   const getEmployeeDropDown = async () => {
@@ -60,26 +60,28 @@ function AddIssueAsset() {
       });
   };
 
-  // const EditEmployeeMaster = async (payload: any, action: any) => {
-  //   setLoading(true);
-  //   await EmployeeService.EditEmployeeMaster(data?.id, payload)
-  //     .then((res: any) => {
-  //       setLoading(false);
-  //       action.resetForm();
-  //       navigate("/Employee");
-  //       toast.success(res?.data?.message);
-  //     })
-  //     .catch((error: any) => {
-  //       setLoading(false);
-  //       toast.error(error.response.data.message);
-  //     });
-  // };
+  const editAssetIssue = async (payload: any, action: any) => {
+    setLoading(true);
+    await AssetIssueService.editAssetIssue(data?.id, payload)
+      .then((res: any) => {
+        setLoading(false);
+        action.resetForm();
+        navigate("/IssueAsset");
+        toast.success(res?.data?.message);
+      })
+      .catch((error: any) => {
+        setLoading(false);
+        toast.error(error.response.data.message);
+      });
+  };
 
   const formik: any = useFormik({
     initialValues: {
       empRef_id: data ? data?.empRef_id : "",
+      empRef_name:data ? data?.empRef_name : "",
+      assetRef_name:data ? data?.assetRef_name : "",
       assetRef_id: data ? data?.assetRef_id : "",
-      asset_issue_date: data ? data?.asset_issue_date : "",
+      asset_issue_date: data ? moment(data?.asset_issue_date).format("YYYY-MM-DD") : "",
       remarks: data ? data?.remarks : "",
     },
     validationSchema: Yup.object({
@@ -89,7 +91,9 @@ function AddIssueAsset() {
     }),
     onSubmit: (values: any, actions: any) => {
       if (data) {
-        // EditEmployeeMaster(values, actions);
+         editAssetIssue(values, actions);
+        console.log(values);
+        
       } else {
         addAssetIssue(values, actions);
       }
@@ -104,7 +108,7 @@ function AddIssueAsset() {
   return (
     <div>
       <Stack spacing={2} direction="row" mb={4} fontSize={20} fontWeight="bold">
-        Asign Asset to Employee
+          {data ? "Edit Issued Asset" : "Asign Asset to Employee"} 
       </Stack>
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={3}>

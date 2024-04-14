@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import AssetService from "../../../service/API/asset.service";
 import moment from "moment";
 
-function AddAsset() {
+function AddAssetScrap() {
   const location = useLocation();
   const data = location.state;
   const navigate = useNavigate();
@@ -324,4 +324,4 @@ function AddAsset() {
   );
 }
 
-export default AddAsset;
+export default AddAssetScrap;
