@@ -42,7 +42,7 @@ function HistoryPage() {
 
   const getAssetDropDown = async () => {
     setLoading(true);
-    await AssetIssueService.getAssetDropDown()
+    await AssetIssueService.getAssetDropHistory()
       .then((res: any) => {
         setLoading(false);
         let result = res?.data?.data.map((item: any) => {

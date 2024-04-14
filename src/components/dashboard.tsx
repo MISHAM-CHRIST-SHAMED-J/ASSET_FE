@@ -66,7 +66,7 @@ function DashboardPage() {
                   </Typography>
 
                   <Typography component="p" variant="h4">
-                    {item?.count}
+                    {item?.count ? item?.count : 0}
                   </Typography>
 
                   <Typography color="text.secondary" sx={{ display: "flex" }}>

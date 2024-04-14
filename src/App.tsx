@@ -13,6 +13,7 @@ import AssetCategory from "./pages/assetcategory/index.tsx";
 import IssuedDashboard from "./pages/issueasset/index.tsx";
 import ReturnAsset from "./pages/returnasset/index.tsx";
 import AddIssueAsset from "./pages/issueasset/addissueasset/index.tsx";
+import AddAssetScrap from "./pages/scrap/addscrap/index.tsx";
 function App() {
   return (
     <>
@@ -28,6 +29,7 @@ function App() {
           <Route path="/AddIssueAsset" element={<AddIssueAsset />} />
           <Route path="/ReturnAsset" element={<ReturnAsset />} />
           <Route path="/Scrap" element={<ScrapPage />} />
+          <Route path="/AddScrap" element={<AddAssetScrap />} />
           <Route path="/AssetHistory" element={<HistoryPage />} />
         </Route>
       </Routes>

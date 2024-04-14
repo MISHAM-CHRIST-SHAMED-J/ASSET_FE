@@ -13,6 +13,14 @@ class AssetIssueService {
     return await axios.get<any>(`${API_POINT}/api/get_Asset_DropDown`);
   };
 
+  getAssetDropForScrap = async () => {
+    return await axios.get<any>(`${API_POINT}/api/get_Asset_Drop_Scrap`);
+  };
+
+  getAssetDropHistory = async () => {
+    return await axios.get<any>(`${API_POINT}/api/get_Asset_Drop_History`);
+  };
+
   addAssetIssue = async (payload: any) => {
     return await axios.post<any>(`${API_POINT}/api/add_assetIssue`, payload);
   };
@@ -37,7 +45,7 @@ class AssetIssueService {
     );
   };
 
-  searchAssetIssue = async (val:any) => {
+  searchAssetIssue = async (val: any) => {
     return await axios.get<any>(
       `${API_POINT}/api/search_assetIssue?search=${val}`
     );

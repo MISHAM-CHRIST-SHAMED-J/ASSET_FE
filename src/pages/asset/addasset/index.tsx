@@ -299,7 +299,7 @@ function AddAsset() {
               onBlur={formik.handleBlur}
               value={formik.values.asset_price}
               InputLabelProps={{
-                shrink: true,
+                shrink: true
               }}
             />
             {formik.touched.asset_price && formik.errors.asset_price ? (

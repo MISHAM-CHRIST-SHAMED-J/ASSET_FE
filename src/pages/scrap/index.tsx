@@ -94,7 +94,7 @@ function ScrapPage() {
           <div style={{ display: "flex", justifyContent: "center" }}>
             <ButtonIcon
               data={props?.data}
-              getAssetMaster={getAssetMaster}
+              // getAssetMaster={getAssetMaster}
               setLoading={setLoading}
             />
           </div>
@@ -146,7 +146,7 @@ function ScrapPage() {
             disabled={loading}
             style={{ marginLeft: "10px" }}
             onClick={() => {
-              navigate("/AddAsset");
+              navigate("/AddScrap");
             }}
           >
             Add Scrap
