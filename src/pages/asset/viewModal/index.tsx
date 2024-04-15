@@ -21,9 +21,6 @@ const style = {
   p: 4,
 };
 
-
-
-
 function ViewModel(props: any) {
   const { open, handleClose, data } = props;
   console.log(data);
@@ -39,16 +36,15 @@ function ViewModel(props: any) {
           <Typography id="modal-modal-title" variant="h5" component="h2">
             Asset View
           </Typography>
-         
-            <Grid container spacing={2} mt={2}>
-              <Grid item xs={8}>
-                jjj
-              </Grid>
-              <Grid item xs={4}>
-             
-              </Grid>
-            
+
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={8}>
+              jjj
             </Grid>
+            <Grid item xs={4}>
+              {data?.serial_no}
+            </Grid>
+          </Grid>
         </Box>
       </Modal>{" "}
     </div>
