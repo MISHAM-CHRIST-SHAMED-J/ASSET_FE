@@ -65,7 +65,11 @@ function DashboardPage() {
                     {item?.name}
                   </Typography>
 
-                  <Typography component="p" variant="h4">
+                  <Typography
+                    component="p"
+                    variant="h4"
+                    sx={{ color: item?.color }}
+                  >
                     {item?.count ? item?.count : 0}
                   </Typography>
 

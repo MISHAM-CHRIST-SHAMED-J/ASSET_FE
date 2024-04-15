@@ -260,7 +260,7 @@ function HistoryPage() {
             fontWeight: "bold",
           }}
         >
-          <ErrorIcon sx={{ mr: 1 }} /> Search to View Asset History
+          <ErrorIcon sx={{ mr: 1 }} /> Select to view Asset History
         </div>
       )}
     </div>
