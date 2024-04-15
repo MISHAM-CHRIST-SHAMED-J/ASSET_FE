@@ -7,9 +7,15 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import AssetService from "../../../service/API/asset.service";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import ViewModel from "../viewModal";
 
 export default function ButtonIcon(props: any) {
   const { data, setLoading, getAssetMaster } = props;
+  const [openModel, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleCloseModel = () => setOpen(false);
+
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -59,8 +65,8 @@ export default function ButtonIcon(props: any) {
           <Box>
             <Button
               color="inherit"
-              //  onClick={handleOpenViewModel}
-              // startIcon={<VisibilityIcon />}
+              onClick={handleOpen}
+              startIcon={<VisibilityIcon />}
             >
               View
             </Button>
@@ -98,6 +104,9 @@ export default function ButtonIcon(props: any) {
           </Box>
         </Box>
       </Popover>
+      <>
+        <ViewModel open={openModel} data={data} handleClose={handleCloseModel} />
+      </>
     </>
   );
 }

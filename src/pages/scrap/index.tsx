@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import CustomTable from "../../components/table";
-import AssetScrap from "../../service/API/scrap.service"
+import AssetScrap from "../../service/API/scrap.service";
 import ButtonIcon from "./buttonIcon";
 import { Box, Button, Stack, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -53,27 +53,23 @@ function ScrapPage() {
       filter: true,
       flex: 1,
     },
-    {
-      headerName: "ID",
-      field: "unique_id",
-      filter: true,
-      flex: 1,
-    },
+
     {
       headerName: "Name",
       field: "asset_name",
       filter: true,
       flex: 1,
     },
+
     {
-      headerName: "Make",
-      field: "make",
+      headerName: "Scrap By",
+      field: "scrapped_by",
       filter: true,
       flex: 1,
     },
     {
-      headerName: "Location",
-      field: "asset_location",
+      headerName: "Approved By",
+      field: "approved_by",
       filter: true,
       flex: 1,
     },
@@ -81,7 +77,18 @@ function ScrapPage() {
       headerName: "Purchased",
       field: "purchase_date",
       cellRenderer: (props: any) => {
-        return moment(props?.purchase_date).format("DD-MM-YYYY");
+        console.log(props);
+
+        return moment(props?.data?.purchase_date).format("DD-MM-YYYY");
+      },
+      filter: true,
+      flex: 1,
+    },
+    {
+      headerName: "Scraped Date",
+      field: "scrap_date",
+      cellRenderer: (props: any) => {
+        return moment(props?.data?.scrap_date).format("DD-MM-YYYY");
       },
       filter: true,
       flex: 1,
@@ -94,7 +101,7 @@ function ScrapPage() {
           <div style={{ display: "flex", justifyContent: "center" }}>
             <ButtonIcon
               data={props?.data}
-              // getAssetMaster={getAssetMaster}
+              getAssetScrap={getAssetScrap}
               setLoading={setLoading}
             />
           </div>

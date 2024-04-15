@@ -103,11 +103,15 @@ function AddCategory(props: any) {
                   label="Asset Category"
                   variant="outlined"
                   name="category"
+                  placeholder={editData ? editData?.category : ""}
                   type="text"
                   sx={{ width: "100%" }}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.category}
+                  InputLabelProps={{
+                    shrink: editData && true,
+                  }}
                 />
                 {formik.touched.category && formik.errors.category ? (
                   <div style={{ color: "red" }}>*{formik.errors.category}</div>

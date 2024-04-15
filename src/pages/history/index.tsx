@@ -3,7 +3,6 @@ import AssetIssueService from "../../service/API/assign.service";
 import AssetHistory from "../../service/API/history.service";
 import { toast } from "sonner";
 import { Autocomplete, TextField } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -15,12 +14,12 @@ import AcUnitIcon from "@mui/icons-material/AcUnit";
 import Typography from "@mui/material/Typography";
 import { currencyConvert } from "../../components/utility";
 import moment from "moment";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+import ErrorIcon from "@mui/icons-material/Error";
+
 function HistoryPage() {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [status, setStatus] = useState(true);
   const [data, setData] = useState<any>();
   const [dataHistory, setHistoryData] = useState([]);
   const [dropList, setDropList] = useState([]);
@@ -90,51 +89,116 @@ function HistoryPage() {
           )}
         />
       </div>
-      <div>
-        <Timeline>
-          <TimelineItem>
-            <TimelineOppositeContent
-              sx={{ m: "auto 0", display: "flex", flexDirection: "column" }}
-              align="left"
-              variant="body2"
-              color="text.secondary"
-            >
-              <Typography sx={{ fontWeight: "bold" }}>Purchased On</Typography>
-              <Typography>
-                {moment(data?.purchase_date).format("DD-MM-YYYY")}
-              </Typography>
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineConnector />
-              <TimelineDot>
-                <AcUnitIcon />
-              </TimelineDot>
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography component="span">
-                Asset :{" "}
-                <span style={{ color: "green" }}>{data?.asset_name}</span>
-              </Typography>
-              <Typography component="span">
-                Category :{" "}
-                <span style={{ color: "green" }}>{data?.asset_category}</span>
-              </Typography>
-              <Typography component="span">
-                Make : <span style={{ color: "green" }}>{data?.make}</span>
-              </Typography>
-              <Typography>
-                Price :{" "}
-                <span style={{ color: "green" }}>
-                  {currencyConvert(data?.asset_price)}
-                </span>
-              </Typography>
-            </TimelineContent>
-          </TimelineItem>
-          {/* ************* */}
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            width: "100%",
+            height: "80vh",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : data ? (
+        <div>
+          <Timeline sx={{marginRight:30}}>
+            <TimelineItem>
+              <TimelineOppositeContent
+                sx={{ m: "auto 0", display: "flex", flexDirection: "column" }}
+                align="left"
+                variant="body2"
+                color="text.secondary"
+              >
+                <Typography sx={{ fontWeight: "bold" }}>
+                  Purchased On
+                </Typography>
+                <Typography>
+                  {moment(data?.purchase_date).format("DD-MM-YYYY")}
+                </Typography>
+              </TimelineOppositeContent>
+              <TimelineSeparator>
+                <TimelineConnector />
+                <TimelineDot>
+                  <AcUnitIcon />
+                </TimelineDot>
+                <TimelineConnector />
+              </TimelineSeparator>
+              <TimelineContent
+                sx={{ display: "flex", flexDirection: "column" }}
+              >
+                <Typography component="span">
+                  Asset :{" "}
+                  <span style={{ color: "green" }}>{data?.asset_name}</span>
+                </Typography>
+                <Typography component="span">
+                  Category :{" "}
+                  <span style={{ color: "green" }}>{data?.asset_category}</span>
+                </Typography>
+                <Typography component="span">
+                  Make : <span style={{ color: "green" }}>{data?.make}</span>
+                </Typography>
+                <Typography>
+                  Price :{" "}
+                  <span style={{ color: "green" }}>
+                    {currencyConvert(data?.asset_price)}
+                  </span>
+                </Typography>
+              </TimelineContent>
+            </TimelineItem>
+            {/* ************* */}
 
-          {dataHistory.map((item: any, index: any) => {
-            return (
+            {dataHistory.map((item: any, index: any) => {
+              return (
+                <TimelineItem key={index}>
+                  <TimelineOppositeContent
+                    sx={{
+                      m: "auto 0",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                    align="left"
+                    variant="body2"
+                    color="text.secondary"
+                  >
+                    <Typography sx={{ fontWeight: "light" }}>
+                      Issued on
+                    </Typography>
+                    <Typography fontSize="12px">
+                      {moment(item?.asset_issue_date).format("DD-MM-YYYY")}
+                    </Typography>
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineConnector />
+                    <TimelineDot>
+                      <AcUnitIcon />
+                    </TimelineDot>
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent sx={{ py: "12px", px: 2 }}>
+                    <Typography component="span">
+                      Issued To : {item?.empRef_name}
+                    </Typography>
+                    <Typography fontSize="12px">
+                      {item?.remarks ? `Remarks : ${item?.remarks}` : null}
+                    </Typography>
+                    <Typography fontSize="12px">
+                      {item?.asset_return_date
+                        ? `Returned On : ${moment(
+                            item?.asset_return_date
+                          ).format("DD-MM-YYYY")}`
+                        : null}
+                    </Typography>
+                    <Typography fontSize="12px">
+                      {item?.reason ? `Reason : ${item?.reason}` : null}
+                    </Typography>
+                  </TimelineContent>
+                </TimelineItem>
+              );
+            })}
+            {/* /************ */}
+            {data?.isScrap && (
               <TimelineItem>
                 <TimelineOppositeContent
                   sx={{ m: "auto 0", display: "flex", flexDirection: "column" }}
@@ -142,11 +206,11 @@ function HistoryPage() {
                   variant="body2"
                   color="text.secondary"
                 >
-                  <Typography sx={{ fontWeight: "light" }}>
-                    Issued on
+                  <Typography sx={{ fontWeight: "bold" }}>
+                    Scrapped On
                   </Typography>
-                  <Typography fontSize="12px">
-                    {moment(item?.asset_issue_date).format("DD-MM-YYYY")}
+                  <Typography>
+                    {moment(data?.scrap_date).format("DD-MM-YYYY")}
                   </Typography>
                 </TimelineOppositeContent>
                 <TimelineSeparator>
@@ -156,51 +220,49 @@ function HistoryPage() {
                   </TimelineDot>
                   <TimelineConnector />
                 </TimelineSeparator>
-                <TimelineContent sx={{ py: "12px", px: 2 }}>
+                <TimelineContent
+                  sx={{ display: "flex", flexDirection: "column" }}
+                >
                   <Typography component="span">
-                    Issued To : {item?.empRef_name}
+                    Reason :{" "}
+                    <span style={{ color: "green" }}>
+                      {data?.reason_for_scrap}
+                    </span>
                   </Typography>
-                  <Typography fontSize="12px">
-                    {item?.remarks ? `Remarks : ${item?.remarks}` : null}
+                  <Typography component="span">
+                    Scrap Condition :{" "}
+                    <span style={{ color: "green" }}>
+                      {data?.scrap_condition}
+                    </span>
                   </Typography>
-                  <Typography fontSize="12px">
-                    {item?.asset_return_date
-                      ? `Returned On : ${moment(item?.asset_return_date).format(
-                          "DD-MM-YYYY"
-                        )}`
-                      : null}
+                  <Typography component="span">
+                    Scrapped By :{" "}
+                    <span style={{ color: "green" }}>{data?.scrapped_by}</span>
                   </Typography>
-                  <Typography fontSize="12px">
-                    {item?.reason ? `Reason : ${item?.reason}` : null}
+                  <Typography>
+                    Approved By :{" "}
+                    <span style={{ color: "green" }}>{data?.approved_by}</span>
                   </Typography>
                 </TimelineContent>
               </TimelineItem>
-            );
-          })}
-          {/* /************ */}
-          {data?.isScrap && (
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineConnector />
-                <TimelineDot>
-                  <AcUnitIcon />
-                </TimelineDot>
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent
-                sx={{ py: "12px", px: 2 }}
-                variant="body2"
-                color="text.secondary"
-              >
-                <Typography sx={{ fontWeight: "bold" }}>Scraped On</Typography>
-                <Typography>
-                  {moment(data?.scrap_date).format("DD-MM-YYYY")}
-                </Typography>
-              </TimelineContent>
-            </TimelineItem>
-          )}
-        </Timeline>
-      </div>
+            )}
+          </Timeline>
+        </div>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            height: "60vh",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "18px",
+            fontWeight: "bold",
+          }}
+        >
+          <ErrorIcon sx={{ mr: 1 }} /> Search to View Asset History
+        </div>
+      )}
     </div>
   );
 }

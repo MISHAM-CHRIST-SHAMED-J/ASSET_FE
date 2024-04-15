@@ -36,7 +36,7 @@ function DashboardPage() {
           sx={{
             display: "flex",
             width: "100%",
-            height: "100vh",
+            height: "80vh",
             justifyContent: "center",
             alignItems: "center",
           }}

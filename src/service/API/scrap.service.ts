@@ -22,9 +22,10 @@ class AssetScrap {
     );
   };
 
-  deleteAssetScrap = async (id: number) => {
+  deleteAssetScrap = async (id: number, payload: number) => {
     return await axios.patch<any>(
-      `${API_POINT}/api/delete_Asset_Scrap?id=${id}`
+      `${API_POINT}/api/delete_Asset_Scrap?id=${id}`,
+      payload
     );
   };
 

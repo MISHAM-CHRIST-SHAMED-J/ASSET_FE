@@ -9,9 +9,13 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ReplayIcon from "@mui/icons-material/Replay";
+import ViewModel from "../viewModal";
 
 export default function ButtonIcon(props: any) {
   const { data, setStatus, setLoading } = props;
+  const [openModel, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleCloseModel = () => setOpen(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -62,7 +66,7 @@ export default function ButtonIcon(props: any) {
           <Box>
             <Button
               color="inherit"
-              onClick={() => {}}
+              onClick={handleOpen}
               startIcon={<VisibilityIcon />}
             >
               View
@@ -103,6 +107,9 @@ export default function ButtonIcon(props: any) {
           )}
         </Box>
       </Popover>
+      <>
+        <ViewModel open={openModel} data={data} handleClose={handleCloseModel} />
+      </>
     </>
   );
 }

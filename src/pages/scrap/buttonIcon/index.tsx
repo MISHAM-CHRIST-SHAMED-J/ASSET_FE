@@ -6,10 +6,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import AssetService from "../../../service/API/asset.service";
+import AssetScrap from "../../../service/API/scrap.service";
+import ViewModel from "../viewModal";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 export default function ButtonIcon(props: any) {
-  const { data, setLoading, getAssetMaster } = props;
+  const { data, setLoading, getAssetScrap } = props;
+  const [openModel, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleCloseModel = () => setOpen(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -22,15 +27,20 @@ export default function ButtonIcon(props: any) {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  const deleteAssetMaster = async () => {
+  const deleteAssetScrap = async () => {
     setLoading(true);
-    let payload = {
-      status: false,
+    let payload: any = {
+      reason_for_scrap: "",
+      scrap_date: null,
+      scrap_condition: "",
+      scrapped_by: "",
+      approved_by: "",
+      isScrap: false,
     };
-    await AssetService.deleteAssetMaster(data?.id, payload)
+    await AssetScrap.deleteAssetScrap(data?.id, payload)
       .then((res: any) => {
         setLoading(false);
-        getAssetMaster();
+        getAssetScrap()
         toast.success(res?.data?.message);
       })
       .catch((error: any) => {
@@ -59,28 +69,26 @@ export default function ButtonIcon(props: any) {
           <Box>
             <Button
               color="inherit"
-              //  onClick={handleOpenViewModel}
-              // startIcon={<VisibilityIcon />}
+               onClick={handleOpen}
+               startIcon={<VisibilityIcon />}
             >
               View
             </Button>
           </Box>
 
           <Box>
-            {data.status && (
-              <Button color="inherit" startIcon={<EditIcon />}>
-                <Link
-                  to="/AddAsset"
-                  style={{
-                    textDecoration: "none",
-                    color: "inherit",
-                  }}
-                  state={data}
-                >
-                  Edit
-                </Link>
-              </Button>
-            )}
+            <Button color="inherit" startIcon={<EditIcon />}>
+              <Link
+                to="/AddScrap"
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                }}
+                state={data}
+              >
+                Edit
+              </Link>
+            </Button>
           </Box>
 
           <Box>
@@ -88,7 +96,7 @@ export default function ButtonIcon(props: any) {
               <Button
                 color="inherit"
                 onClick={() => {
-                  deleteAssetMaster();
+                  deleteAssetScrap();
                 }}
                 startIcon={<DeleteIcon />}
               >
@@ -98,6 +106,10 @@ export default function ButtonIcon(props: any) {
           </Box>
         </Box>
       </Popover>
+      <>
+      <ViewModel open={openModel} handleClose={handleCloseModel} />
+
+      </>
     </>
   );
 }

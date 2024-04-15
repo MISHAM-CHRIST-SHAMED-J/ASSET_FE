@@ -23,10 +23,9 @@ function AddAssetScrap() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [dropDown, setDropDown] = useState([]);
-  const today = new Date().toISOString().split("T")[0];
   const [formData, setFormData] = useState<any>({
-    id: "",
-    name: "",
+    id: data?.id,
+    name: data?.asset_name,
   });
 
   const editAssetScrap = async (payload: any, action: any) => {
@@ -80,7 +79,9 @@ function AddAssetScrap() {
   });
 
   useEffect(() => {
-    getAssetDropForScrap();
+    if (!data) {
+      getAssetDropForScrap();
+    }
   }, []);
 
   return (
@@ -100,6 +101,7 @@ function AddAssetScrap() {
           <Grid item xs={12} md={4} lg={4}>
             <Autocomplete
               disablePortal
+              disabled={data ? true : false}
               id="combo-box-demo"
               options={dropDown}
               sx={{ width: "100%" }}
@@ -110,7 +112,7 @@ function AddAssetScrap() {
                   id: newValue?.id,
                 });
               }}
-              value={formData?.label}
+              value={formData?.name}
               renderInput={(params) => (
                 <TextField {...params} label="Select Asset" />
               )}
@@ -152,9 +154,6 @@ function AddAssetScrap() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.scrap_date}
-              inputProps={{
-                max: today,
-              }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -221,6 +220,8 @@ function AddAssetScrap() {
                   onBlur={formik.handleBlur}
                   value={formik.values.isScrap}
                   name="isScrap"
+                  disabled={data ? true : false}
+                  checked={formik.values.isScrap}
                 />
               }
               label="Confirm to proceed with scrap the asset"
