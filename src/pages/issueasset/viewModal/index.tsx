@@ -1,10 +1,8 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import moment from "moment";
-import { currencyConvert } from "../../../components/utility";
 
 const style = {
   position: "absolute" as "absolute",

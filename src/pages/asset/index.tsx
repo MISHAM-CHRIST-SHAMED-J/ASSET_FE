@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AssetService from "../../service/API/asset.service";
 import { toast } from "sonner";
 import CustomTable from "../../components/table";
 import ButtonIcon from "./buttonIcon";
-import { Box, Button, Stack, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import moment from "moment";
@@ -80,9 +80,7 @@ function AssetPage() {
       headerName: "Purchased",
       field: "purchase_date",
       cellRenderer: (props: any) => {
-        return (
-          moment(props?.purchase_date).format("DD-MM-YYYY")
-        );
+        return moment(props?.purchase_date).format("DD-MM-YYYY");
       },
       filter: true,
       flex: 1,
@@ -115,11 +113,11 @@ function AssetPage() {
           justifyContent: "space-between",
           alignItems: "center",
           marginBottom: "15px",
-          fontSize:"20px",
-          fontWeight:"bold",
+          fontSize: "20px",
+          fontWeight: "bold",
         }}
       >
-      <div>Asset</div>
+        <div>Asset</div>
         <div>
           <TextField
             size="small"

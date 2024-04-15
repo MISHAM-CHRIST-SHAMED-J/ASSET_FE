@@ -1,12 +1,6 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  Autocomplete,
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  TextField,
-} from "@mui/material";
+import { Checkbox, FormControlLabel, Grid, TextField } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import AssetIssueService from "../../service/API/assign.service";
@@ -25,7 +19,11 @@ function ReturnAsset() {
 
   const returnAssetIssue = async (payload: any, action: any) => {
     setLoading(true);
-    await AssetIssueService.returnAssetIssue(data?.id, payload, data?.assetRef_id)
+    await AssetIssueService.returnAssetIssue(
+      data?.id,
+      payload,
+      data?.assetRef_id
+    )
       .then((res: any) => {
         setLoading(false);
         action.resetForm();

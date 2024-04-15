@@ -4,7 +4,6 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import AssetService from "../../../service/API/asset.service";
 

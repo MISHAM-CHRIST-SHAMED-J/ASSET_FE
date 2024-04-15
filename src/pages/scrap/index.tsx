@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import CustomTable from "../../components/table";
 import AssetScrap from "../../service/API/scrap.service";
 import ButtonIcon from "./buttonIcon";
-import { Box, Button, Stack, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import moment from "moment";
@@ -13,7 +13,6 @@ function ScrapPage() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [status, setStatus] = useState(true);
   const [data, setData] = useState([]);
   const [count, setcount] = useState(0);
   const [searchValue, setSearchValue] = useState("");
@@ -143,7 +142,7 @@ function ScrapPage() {
                 setSearchValue(value);
               } else {
                 searchAssetScrap(value);
-                setStatus(true);
+
                 setSearchValue(value);
               }
             }}

@@ -2,7 +2,6 @@ import React from "react";
 import { Box, Button, Popover } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
 import EmployeeService from "../../../service/API/employee.service";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
@@ -108,7 +107,11 @@ export default function ButtonIcon(props: any) {
         </Box>
       </Popover>
       <>
-        <ViewModel open={openModel} data={data} handleClose={handleCloseModel} />
+        <ViewModel
+          open={openModel}
+          data={data}
+          handleClose={handleCloseModel}
+        />
       </>
     </>
   );

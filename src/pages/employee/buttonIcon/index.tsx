@@ -56,16 +56,6 @@ export default function ButtonIcon(props: any) {
         }}
       >
         <Box>
-          {/* <Box>
-            <Button
-              color="inherit"
-               onClick={handleOpenViewModel}
-              startIcon={<VisibilityIcon />}
-            >
-              View
-            </Button>
-          </Box> */}
-
           <Box>
             {data.status && (
               <Button color="inherit" startIcon={<EditIcon />}>
