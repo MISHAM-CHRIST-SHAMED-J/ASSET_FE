@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import AssetScrap from "../../../service/API/scrap.service";
 import ViewModel from "../viewModal";
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export default function ButtonIcon(props: any) {
   const { data, setLoading, getAssetScrap } = props;
@@ -40,7 +40,7 @@ export default function ButtonIcon(props: any) {
     await AssetScrap.deleteAssetScrap(data?.id, payload)
       .then((res: any) => {
         setLoading(false);
-        getAssetScrap()
+        getAssetScrap();
         toast.success(res?.data?.message);
       })
       .catch((error: any) => {
@@ -69,8 +69,8 @@ export default function ButtonIcon(props: any) {
           <Box>
             <Button
               color="inherit"
-               onClick={handleOpen}
-               startIcon={<VisibilityIcon />}
+              onClick={handleOpen}
+              startIcon={<VisibilityIcon />}
             >
               View
             </Button>
@@ -107,8 +107,11 @@ export default function ButtonIcon(props: any) {
         </Box>
       </Popover>
       <>
-      <ViewModel open={openModel} handleClose={handleCloseModel} />
-
+        <ViewModel
+          open={openModel}
+          data={data}
+          handleClose={handleCloseModel}
+        />
       </>
     </>
   );

@@ -137,7 +137,9 @@ export default function NavbarPage() {
                   <ListItemButton
                     sx={{
                       background:
-                        location.pathname === item?.link ? "#bdbdbd" : "inherit",
+                        location.pathname === item?.link
+                          ? "#bdbdbd"
+                          : "inherit",
                     }}
                   >
                     <ListItemIcon>{item?.icon}</ListItemIcon>

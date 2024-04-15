@@ -80,10 +80,12 @@ function IssuedDashboard() {
                   backgroundColor: "#f5c7c4",
                   color: "#bf1004",
                   borderRadius: "15px",
-                  fontWeight:"bold"
-
+                  fontWeight: "bold",
+                  fontSize: "12px",
                 }}
-              >Asset Not Reclaimed</span>
+              >
+                Asset Not Reclaimed
+              </span>
             )}
           </div>
         );

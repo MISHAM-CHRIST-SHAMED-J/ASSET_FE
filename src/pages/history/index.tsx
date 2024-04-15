@@ -103,7 +103,7 @@ function HistoryPage() {
         </Box>
       ) : data ? (
         <div>
-          <Timeline sx={{marginRight:30}}>
+          <Timeline sx={{ marginRight: 30 }}>
             <TimelineItem>
               <TimelineOppositeContent
                 sx={{ m: "auto 0", display: "flex", flexDirection: "column" }}
@@ -225,23 +225,23 @@ function HistoryPage() {
                 >
                   <Typography component="span">
                     Reason :{" "}
-                    <span style={{ color: "green" }}>
+                    <span style={{ color: "red" }}>
                       {data?.reason_for_scrap}
                     </span>
                   </Typography>
                   <Typography component="span">
                     Scrap Condition :{" "}
-                    <span style={{ color: "green" }}>
+                    <span style={{ color: "red" }}>
                       {data?.scrap_condition}
                     </span>
                   </Typography>
                   <Typography component="span">
                     Scrapped By :{" "}
-                    <span style={{ color: "green" }}>{data?.scrapped_by}</span>
+                    <span style={{ color: "red" }}>{data?.scrapped_by}</span>
                   </Typography>
                   <Typography>
                     Approved By :{" "}
-                    <span style={{ color: "green" }}>{data?.approved_by}</span>
+                    <span style={{ color: "red" }}>{data?.approved_by}</span>
                   </Typography>
                 </TimelineContent>
               </TimelineItem>
