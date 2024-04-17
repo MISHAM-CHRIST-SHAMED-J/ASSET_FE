@@ -13,10 +13,16 @@ import IssuedDashboard from "./pages/issueasset/index.tsx";
 import ReturnAsset from "./pages/returnasset/index.tsx";
 import AddIssueAsset from "./pages/issueasset/addissueasset/index.tsx";
 import AddAssetScrap from "./pages/scrap/addscrap/index.tsx";
+import LoginPage from "./pages/login/index.tsx";
+import RegisterPage from "./pages/register/index.tsx";
+import ForgotPasswordPage from "./pages/forgotpassword/index.tsx";
 function App() {
   return (
     <>
       <Routes>
+        <Route path="/Login" element={<LoginPage />} />
+        <Route path="/Register" element={<RegisterPage />} />
+        <Route path="/ForgetPassword" element={<ForgotPasswordPage />} />
         <Route path="/" element={<NavbarPage />}>
           <Route path="/Dashboard" element={<DashboardPage />} />
           <Route path="/Employee" element={<EmployeeDashboard />} />
@@ -31,6 +37,7 @@ function App() {
           <Route path="/AddScrap" element={<AddAssetScrap />} />
           <Route path="/AssetHistory" element={<HistoryPage />} />
         </Route>
+        <Route path="*" element={<NavbarPage />} />
       </Routes>
     </>
   );

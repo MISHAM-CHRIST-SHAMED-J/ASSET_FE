@@ -15,9 +15,14 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import DashboardPage from "./dashboard";
 import { dropList } from "./route";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Popover } from "@mui/material";
+import logoImg from "../assets/logo.webp";
+import loginImg from "../assets/login.png";
+import PersonIcon from "@mui/icons-material/Person";
 
 const drawerWidth: number = 230;
 
@@ -78,15 +83,33 @@ export default function NavbarPage() {
     setOpen(!open);
   };
   const location = useLocation();
+  const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openPop = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open}>
+        <AppBar position="absolute" open={open} color="inherit">
           <Toolbar
             sx={{
               pr: "24px",
+              display: "flex",
+              justifyContent: "space-between",
+              ...(open && { justifyContent: "flex-end" }),
             }}
           >
             <IconButton
@@ -101,38 +124,83 @@ export default function NavbarPage() {
             >
               <MenuIcon />
             </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{ flexGrow: 1 }}
-            >
-              ASSET MANAGEMENT
-            </Typography>
+            <div>
+              <span onClick={handleClick}>
+                <img
+                  width={30}
+                  height={36}
+                  src={loginImg}
+                  alt=""
+                  onClick={() => {}}
+                />
+              </span>
+              <Popover
+                id={id}
+                open={openPop}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+              >
+                <Typography sx={{ p: 1.5 }} className="flexCen">
+                  <PersonIcon fontSize="small" />
+                  &nbsp; PROFILE
+                </Typography>
+                <Divider />
+                <Typography
+                  sx={{ p: 1.5 }}
+                  className="flexCen"
+                  onClick={() => {
+                    navigate("/Login");
+                  }}
+                >
+                  {" "}
+                  <LogoutIcon fontSize="small" /> &nbsp; LOGOUT
+                </Typography>
+              </Popover>
+            </div>
           </Toolbar>
         </AppBar>
-        <Drawer variant="permanent" open={open}>
+        <Drawer
+          variant="permanent"
+          open={open}
+          sx={{
+            height: "100vh",
+          }}
+        >
           <Toolbar
             sx={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "flex-end",
-              px: [1],
+              justifyContent: "space-between",
             }}
           >
+            <img src={logoImg} width="50px" height="50px" alt="" />
             <IconButton onClick={toggleDrawer}>
               <ChevronLeftIcon />
             </IconButton>
           </Toolbar>
           <Divider />
-          <List component="nav">
+          <List
+            className="navigationBox"
+            component="nav"
+            sx={{
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             {dropList.map((item: any, index: any) => {
               return (
                 <Link
                   key={index}
                   to={item?.link}
-                  style={{ textDecoration: "none", color: "black" }}
+                  style={{
+                    textDecoration: "none",
+                    color: "black",
+                  }}
                 >
                   <ListItemButton
                     sx={{
@@ -149,7 +217,25 @@ export default function NavbarPage() {
               );
             })}
           </List>
+          <Divider />
+          <Link to={""} style={{ textDecoration: "none", color: "black" }}>
+            <Toolbar
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                px: [0],
+                width: "100%",
+                fontWeight: "lighter",
+                fontSize: "15px",
+                color: "gray",
+              }}
+            >
+              <p>Elsha Tech &copy; Copyright {new Date().getFullYear()}</p>
+            </Toolbar>
+          </Link>
         </Drawer>
+
         <Box
           component="main"
           sx={{

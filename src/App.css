@@ -1,8 +1,27 @@
-#hide_scroll::-webkit-scrollbar {
-  display: none;
+::-webkit-scrollbar {
+  width: 4px;
 }
 
-.hide_scroll {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+::-webkit-scrollbar-thumb {
+  background: #adadad;
+  border-radius: 0px;
+}
+
+.navigationBox {
+  overflow: hidden;
+}
+
+.navigationBox:hover {
+  overflow-y: auto;
+}
+
+.flexCen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flexJust {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

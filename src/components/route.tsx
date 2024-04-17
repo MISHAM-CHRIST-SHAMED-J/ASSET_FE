@@ -33,7 +33,7 @@ export const dropList = [
   },
   {
     link: "/AssetHistory",
-    name: "AssetHistory",
+    name: "Asset History",
     icon: <HistoryIcon />,
   },
 ];

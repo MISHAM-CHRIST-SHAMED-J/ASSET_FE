@@ -57,7 +57,7 @@ function DashboardPage() {
                     justifyContent: "center",
                     height: 240,
                     fontSize: "20px",
-                    borderRadius: "20px",
+                    borderRadius: "50px 0px",
                     gap: 2,
                   }}
                 >
